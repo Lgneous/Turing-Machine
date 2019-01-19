@@ -1,8 +1,8 @@
 type action = Left | Right
 
 type t = {
-    read : char;
+    read : string;
     to_state : string;
-    write : char;
+    write : string;
     action : action
   }
