@@ -26,6 +26,3 @@ assoc_elem:
 
 list:
   | LEFT_BRACK separated_list(COMMA, value) RIGHT_BRACK { Syntax.List $2 }
-
-prog:
-  | LEFT_BRACE
