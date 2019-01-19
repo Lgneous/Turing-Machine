@@ -8,3 +8,5 @@ type core =
   | Transitions of (string * (Transition.t list)) list
 
 type t = core list
+
+val print_machine : t -> unit
