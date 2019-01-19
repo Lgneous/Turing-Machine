@@ -6,6 +6,7 @@ type t = {
     blank : char;
     states : string list;       (* Maybe use a string set *)
     initial : string;
+    finals : string list;
     transitions : Transitions.t list
   }
 
