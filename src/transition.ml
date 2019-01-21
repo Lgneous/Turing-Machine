@@ -1,3 +1,5 @@
+open Batteries
+
 type action = Left | Right
 
 type t = {
