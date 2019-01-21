@@ -1,3 +1,7 @@
+%{
+    open Batteries
+	 %}
+
 %token <string> STRING
 %token <string> CHAR
 %token NAME
@@ -25,16 +29,21 @@
 %%
 
 prog:
-  | LEFT_BRACE separated_list(COMMA, core) RIGHT_BRACE EOF { $2 }
-
-core:
-  | NAME COLON string { Syntax.Name $3 }
-  | ALPHABET COLON LEFT_BRACK separated_list(COMMA, CHAR) RIGHT_BRACK { Syntax.Alphabet $4 }
-  | BLANK COLON string { Syntax.Blank $3 }
-  | STATES COLON LEFT_BRACK separated_list(COMMA, string) RIGHT_BRACK { Syntax.States $4 }
-  | INITIAL COLON string { Syntax.Initial $3 }
-  | FINALS COLON LEFT_BRACK separated_list(COMMA, string) RIGHT_BRACK { Syntax.Finals $4 }
-  | TRANSITIONS COLON LEFT_BRACE separated_list(COMMA, assoc) RIGHT_BRACE { Syntax.Transitions $4 }
+  | LEFT_BRACE NAME COLON; n = string; COMMA ALPHABET COLON LEFT_BRACK; a = separated_list(COMMA, CHAR);
+RIGHT_BRACK COMMA BLANK COLON; b = CHAR; COMMA STATES COLON LEFT_BRACK; s = separated_list(COMMA, string);
+RIGHT_BRACK COMMA INITIAL COLON; i = string; COMMA FINALS COLON LEFT_BRACK; f = separated_list(COMMA, string);
+RIGHT_BRACK COMMA TRANSITIONS COLON LEFT_BRACE; t = separated_list(COMMA, assoc); RIGHT_BRACE RIGHT_BRACE EOF
+    {
+      {
+	Syntax.name = n;
+	Syntax.alphabet = a;
+	Syntax.blank = b;
+	Syntax.states = s;
+	Syntax.initial = i;
+	Syntax.finals = f;
+	Syntax.transitions = Hashtbl.of_list t
+      }
+    }
 
 string:
   | NAME { "name" }
