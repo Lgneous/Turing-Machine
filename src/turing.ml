@@ -1,7 +1,7 @@
 open Batteries
 
 let test = function
-  | Result.Ok _ -> ()
+  | Result.Ok d -> Print.machine_desc d
   | Result.Bad e -> print_endline e
 
 let _ =
