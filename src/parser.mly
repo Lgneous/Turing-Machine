@@ -3,7 +3,7 @@
 	 %}
 
 %token <string> STRING
-%token <string> CHAR
+%token <char> CHAR
 %token NAME
 %token ALPHABET
 %token BLANK
@@ -59,7 +59,8 @@ string:
   | ACTION { "action" }
   | LEFT { "left" }
   | RIGHT { "right" }
-  | STRING | CHAR { $1 }
+  | STRING { $1 }
+  | CHAR { String.make 1 $1 }
 
 assoc:
   | string COLON LEFT_BRACK separated_list(COMMA, transi) RIGHT_BRACK { ($1, $4) }
