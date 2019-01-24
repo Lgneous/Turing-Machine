@@ -74,9 +74,11 @@ let sanitize desc =
 let rec run desc tape state =
   print_endline @@ Tape.tape tape;
   let read_v = Tape.read tape in
-  let transi = Transition.from_read (Hashtbl.find desc.transitions state) read_v in
-  match transi with
-  | Result.Bad e -> if is_in desc.finals state then "Ok" else e
-  | Result.Ok t -> run desc
-                       (tape |> flip Tape.write t.Transition.write |> flip Tape.shift t.Transition.action)
-                       t.Transition.to_state
+  try
+    let transi = Transition.from_read (Hashtbl.find desc.transitions state) read_v in
+    match transi with
+    | Result.Bad e -> if is_in desc.finals state then "Ok" else e
+    | Result.Ok t -> run desc
+                         (tape |> flip Tape.write t.Transition.write |> flip Tape.shift t.Transition.action)
+                         t.Transition.to_state
+  with _ -> if is_in desc.finals state then "Ok" else "Invalid state: " ^ state
