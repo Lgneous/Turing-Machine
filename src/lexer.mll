@@ -12,7 +12,7 @@ let char = '"' [^ '"'] '"'
 rule read = parse
   | blank { read lexbuf }
   | newline { new_line lexbuf; read lexbuf }
-  | char { CHAR (lexeme lexbuf) }
+  | char { CHAR (String.make 1 (String.get (lexeme lexbuf) 1)) }
 
   | "\"name\"" { NAME }
   | "\"alphabet\"" { ALPHABET }
