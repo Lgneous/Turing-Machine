@@ -2,8 +2,8 @@ open Batteries
 
 type t = {
     name : string;
-    alphabet : string list;
-    blank : string;
+    alphabet : char list;
+    blank : char;
     states : string list;
     initial : string;
     finals : string list;
@@ -20,7 +20,7 @@ let of_ast desc = {
     transitions = desc.Syntax.transitions;
   }
 
-let is_in = flip List.mem
+let is_in xs = flip List.mem xs
 
 let is_valid_blank desc =
   if List.mem desc.blank desc.alphabet
