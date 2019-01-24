@@ -1,7 +1,7 @@
 type t = {
     name : string;
-    alphabet : string list;
-    blank : string;
+    alphabet : char list;
+    blank : char;
     states : string list;
     initial : string;
     finals : string list;
@@ -9,5 +9,5 @@ type t = {
   }
 
 val of_ast : Syntax.t -> t
-
+val is_in : 'a list -> 'a -> bool
 val sanitize : t -> (t, string) BatResult.t

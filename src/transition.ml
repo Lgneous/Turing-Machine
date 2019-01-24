@@ -3,8 +3,8 @@ open Batteries
 type action = Left | Right
 
 type t = {
-    read : string;
+    read : char;
     to_state : string;
-    write : string;
+    write : char;
     action : action
   }
