@@ -20,6 +20,6 @@ let left (tape, head, blank) =
   else tape, head - 1, blank
 
 let right (tape, head, blank) =
-  if head = String.length tape
+  if head = String.length tape - 1
   then tape ^ String.make 1 blank, head + 1, blank
   else tape, head + 1, blank
