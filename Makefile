@@ -30,3 +30,6 @@ debug: sanity
 
 sanity:
 	ocamlfind query $(LIB)
+
+dep:
+	opam install $(LIB) menhir
