@@ -11,3 +11,5 @@ type t = {
 val of_ast : Syntax.t -> t
 
 val sanitize : t -> (t, string) BatResult.t
+
+val run : t -> Tape.t -> string -> string
