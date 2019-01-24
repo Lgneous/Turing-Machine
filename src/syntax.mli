@@ -1,5 +1,3 @@
-open Batteries
-
 type t = {
     name : string;
     alphabet : char list;
