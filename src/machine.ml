@@ -68,4 +68,15 @@ let is_valid_write desc =
 
 let sanitize desc =
   let (>>=) = Result.Monad.bind in
-  Result.Ok desc >>= is_valid_blank >>= is_valid_initial >>= is_valid_finals >>= is_valid_transitions >>= is_valid_read >>= is_valid_to_state >>= is_valid_write
+  Result.Ok desc >>= is_valid_blank >>= is_valid_initial >>= is_valid_finals
+  >>= is_valid_transitions >>= is_valid_read >>= is_valid_to_state >>= is_valid_write
+
+let rec run desc tape state =
+  print_endline @@ Tape.tape tape;
+  let read_v = Tape.read tape in
+  let transi = Transition.from_read (Hashtbl.find desc.transitions state) read_v in
+  match transi with
+  | Result.Bad e -> if is_in desc.finals state then "Ok" else e
+  | Result.Ok t -> run desc
+                       (tape |> flip Tape.write t.Transition.write |> flip Tape.shift t.Transition.action)
+                       t.Transition.to_state

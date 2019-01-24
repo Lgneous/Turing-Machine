@@ -6,7 +6,8 @@ val tape : t -> string
 val head : t -> int
 
 val write : t -> char -> t
-val read : t -> t
+val read : t -> char
 
 val left : t -> t
 val right : t -> t
+val shift : t -> Transition.action -> t
