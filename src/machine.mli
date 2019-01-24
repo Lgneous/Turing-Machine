@@ -9,5 +9,5 @@ type t = {
   }
 
 val of_ast : Syntax.t -> t
-val is_in : 'a list -> 'a -> bool
+
 val sanitize : t -> (t, string) BatResult.t
