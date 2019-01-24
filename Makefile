@@ -9,27 +9,27 @@ NAME = turing
 all: native byte
 
 clean:
-	rm -rf _build
+	@rm -rf _build
 
 fclean:
-	$(OCB) -clean
+	@$(OCB) -clean
 
 re: fclean all
 
 native: sanity
-	$(OCB) $(NAME).native
+	@$(OCB) $(NAME).native
 
 byte: sanity
-	$(OCB) $(NAME).byte
+	@$(OCB) $(NAME).byte
 
 profile: sanity
-	$(OCB) -tag profile $(NAME).native
+	@$(OCB) -tag profile $(NAME).native
 
 debug: sanity
-	$(OCB) -tag debug $(NAME).byte
+	@$(OCB) -tag debug $(NAME).byte
 
 sanity:
-	ocamlfind query $(LIB)
+	@ocamlfind query $(LIB) || (echo "\`make dep\` to install dependencies through opam" && false)
 
 dep:
-	opam install $(LIB) menhir
+	@opam install $(LIB) menhir
