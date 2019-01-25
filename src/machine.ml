@@ -72,7 +72,7 @@ let sanitize desc =
   >>= is_valid_transitions >>= is_valid_read >>= is_valid_to_state >>= is_valid_write
 
 let rec run desc tape state =
-  print_endline @@ Tape.tape tape;
+  print_endline @@ Tape.to_string tape;
   let read_v = Tape.read tape in
   try
     let transi = Transition.from_read (Hashtbl.find desc.transitions state) read_v in

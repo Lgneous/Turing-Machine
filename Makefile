@@ -2,7 +2,7 @@
 
 OCB_FLAGS = -use-menhir -use-ocamlfind -I src
 OCB = ocamlbuild $(OCB_FLAGS)
-LIB = batteries
+LIB = batteries ANSITerminal
 
 NAME = turing
 
