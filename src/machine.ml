@@ -71,14 +71,20 @@ let sanitize desc =
   Result.Ok desc >>= is_valid_blank >>= is_valid_initial >>= is_valid_finals
   >>= is_valid_transitions >>= is_valid_read >>= is_valid_to_state >>= is_valid_write
 
+let print_running_transition state t =
+        print_endline @@ "(" ^ state ^ ", " ^ String.make 1 t.Transition.read ^ ") -> ("
+                                              ^ t.Transition.to_state ^ ", " ^ String.make 1 t.Transition.write ^ ", "
+                                                                                    ^ begin if t.Transition.action = Transition.Left then "LEFT" else "RIGHT" end
+                                      ^ ")"
+
 let rec run desc tape state =
-  print_endline @@ Tape.to_string tape;
+  print_string @@ Tape.to_string tape;
   let read_v = Tape.read tape in
   try
     let transi = Transition.from_read (Hashtbl.find desc.transitions state) read_v in
     match transi with
     | Result.Bad e -> if is_in desc.finals state then "Ok" else e
-    | Result.Ok t -> run desc
-                         (tape |> flip Tape.write t.Transition.write |> flip Tape.shift t.Transition.action)
+    | Result.Ok t -> print_running_transition state t;
+                     run desc (tape |> flip Tape.write t.Transition.write |> flip Tape.shift t.Transition.action)
                          t.Transition.to_state
   with _ -> if is_in desc.finals state then "Ok" else "Invalid state: " ^ state
