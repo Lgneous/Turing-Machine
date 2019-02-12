@@ -30,4 +30,4 @@ let shift t = function
   | Transition.Right -> right t
 
 let to_string (tape, head, blank) =
-  String.slice ~last:head tape ^ ANSITerminal.sprintf [ANSITerminal.cyan] "%c" (String.get tape head) ^ String.slice ~first:(head + 1) tape
+  "[" ^ String.slice ~last:head tape ^ ANSITerminal.sprintf [ANSITerminal.cyan] "%c" (String.get tape head) ^ String.slice ~first:(head + 1) tape ^ "]"
