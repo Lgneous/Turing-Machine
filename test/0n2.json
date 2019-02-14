@@ -1,0 +1,18 @@
+{
+    "name" : "0n^2",
+    "alphabet": [ "0", ".", "y", "n" ],
+    "blank" : ".",
+    "states" : [ "odd", "even", "HALT" ],
+    "initial" : "even",
+    "finals" : [ "HALT" ],
+    "transitions" : {
+        "even": [
+            { "read" : ".", "to_state": "HALT", "write": "y", "action": "RIGHT"},
+            { "read" : "0", "to_state": "odd" , "write": "0", "action": "RIGHT" }
+        ],
+        "odd": [
+            { "read" : ".", "to_state": "HALT", "write": "n", "action": "RIGHT"},
+            { "read" : "0", "to_state": "even" , "write": "0", "action": "RIGHT"}
+		]
+    }
+}

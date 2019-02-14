@@ -1,0 +1,45 @@
+{
+    "name" : "palindrome",
+    "alphabet": [ "1", "0", "n", "y", "." ],
+    "blank" : ".",
+    "states" : [ "first", "zero", "one", "last_zero", "last_one", "back_to_first", "error", "HALT" ],
+    "initial" : "first",
+    "finals" : [ "HALT" ],
+    "transitions" : {
+		"first": [
+			{ "read": "0", "to_state": "last_zero", "write": ".", "action": "RIGHT"},
+			{ "read": "1", "to_state": "last_one", "write": ".", "action": "RIGHT"},
+			{ "read": ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
+		],
+        "zero": [
+			{ "read": "0", "to_state": "back_to_first", "write": ".", "action": "LEFT"},
+			{ "read": "1", "to_state": "error", "write": "1", "action": "RIGHT"},
+			{ "read": ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
+        ],
+        "one": [
+			{ "read": "0", "to_state": "error", "write": "0", "action": "RIGHT"},
+			{ "read": "1", "to_state": "back_to_first", "write": ".", "action": "LEFT"},
+			{ "read": ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
+        ],
+        "last_zero": [
+			{ "read": "0", "to_state": "last_zero", "write": "0", "action": "RIGHT"},
+			{ "read": "1", "to_state": "last_zero", "write": "1", "action": "RIGHT"},
+			{ "read": ".", "to_state": "zero", "write": ".", "action": "LEFT"}
+        ],
+        "last_one": [
+			{ "read": "0", "to_state": "last_one", "write": "0", "action": "RIGHT"},
+			{ "read": "1", "to_state": "last_one", "write": "1", "action": "RIGHT"},
+			{ "read": ".", "to_state": "one", "write": ".", "action": "LEFT"}
+        ],
+		"back_to_first": [
+			{ "read": "0", "to_state": "back_to_first", "write": "0", "action": "LEFT"},
+			{ "read": "1", "to_state": "back_to_first", "write": "1", "action": "LEFT"},
+			{ "read": ".", "to_state": "first", "write": ".", "action": "RIGHT"}
+		],
+        "error": [
+			{ "read": "0", "to_state": "error", "write": "0", "action": "RIGHT"},
+			{ "read": "1", "to_state": "error", "write": "1", "action": "RIGHT"},
+			{ "read": ".", "to_state": "HALT", "write": "n", "action": "RIGHT"}
+        ]
+    }
+}
