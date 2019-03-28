@@ -26,20 +26,19 @@ let print_position lexbuf =
 let _ =
   if Array.length Sys.argv <> 3
   then usage ()
-  else begin
-      try
-        let f = open_in Sys.argv.(1) in
-        let lexbuf = Lexing.from_channel f in
-        let ast =
-          try Parser.prog Lexer.read lexbuf
-          with Lexer.SyntaxError e -> (print_position lexbuf; print_endline e; exit 1)
-             | _ -> (print_position lexbuf; print_endline "Parser Error"; exit 1)
-        in
-        let desc_res = Machine.sanitize @@ Machine.of_ast @@ ast in
-        display_or_err desc_res;
-        match desc_res with
-        | Result.Ok desc -> Printf.printf " HALTING\n-- %s --\n" @@ Machine.run desc (Tape.make (Sys.argv.(2) ^ String.make 1 desc.Machine.blank) desc.Machine.blank) desc.Machine.initial
-        | err -> ()
+  else
+    try
+      let f = open_in Sys.argv.(1) in
+      let lexbuf = Lexing.from_channel f in
+      let ast =
+        try Parser.prog Lexer.read lexbuf
+        with Lexer.SyntaxError e -> (print_position lexbuf; print_endline e; exit 1)
+           | _ -> (print_position lexbuf; print_endline "Parser Error"; exit 1)
+      in
+      let desc_res = Machine.sanitize @@ Machine.of_ast @@ ast in
+      display_or_err desc_res;
+      match desc_res with
+      | Result.Ok desc -> Printf.printf " HALTING\n-- %s --\n" @@ Machine.run desc (Tape.make (Sys.argv.(2) ^ String.make 1 desc.Machine.blank) desc.Machine.blank) desc.Machine.initial
+      | err -> ()
 
-          with Sys_error e -> print_endline e; exit 2
-    end
+    with Sys_error e -> print_endline e; exit 2
