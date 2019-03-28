@@ -74,7 +74,7 @@ let sanitize desc =
 let print_running_transition state t =
   print_endline @@ " (" ^ state ^ ", " ^ String.make 1 t.Transition.read ^ ") -> ("
                   ^ t.Transition.to_state ^ ", " ^ String.make 1 t.Transition.write
-                  ^ ", " ^ begin if t.Transition.action = Transition.Left then "LEFT" 
+                  ^ ", " ^ begin if t.Transition.action = Transition.Left then "LEFT"
                                  else "RIGHT" end ^ ")"
 
 let rec run desc tape state =
