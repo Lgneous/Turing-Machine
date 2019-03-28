@@ -30,12 +30,16 @@ let _ =
       try
         let f = open_in Sys.argv.(1) in
         let lexbuf = Lexing.from_channel f in
-        try
-          let desc_res = Machine.sanitize @@ Machine.of_ast @@ Parser.prog Lexer.read lexbuf in
-          display_or_err desc_res;
-          match desc_res with
-          | Result.Ok desc -> Printf.printf "\n-- %s --\n" @@ Machine.run desc (Tape.make (Sys.argv.(2) ^ String.make 1 desc.Machine.blank) desc.Machine.blank) desc.Machine.initial
-          | err -> ()
-        with Lexer.SyntaxError e -> (print_position lexbuf; print_endline e; exit 0)
-      with Sys_error e -> print_endline e; exit 2
+        let ast =
+          try Parser.prog Lexer.read lexbuf
+          with Lexer.SyntaxError e -> (print_position lexbuf; print_endline e; exit 1)
+             | _ -> (print_position lexbuf; print_endline "Parser Error"; exit 1)
+        in
+        let desc_res = Machine.sanitize @@ Machine.of_ast @@ ast in
+        display_or_err desc_res;
+        match desc_res with
+        | Result.Ok desc -> Printf.printf "\n-- %s --\n" @@ Machine.run desc (Tape.make (Sys.argv.(2) ^ String.make 1 desc.Machine.blank) desc.Machine.blank) desc.Machine.initial
+        | err -> ()
+
+          with Sys_error e -> print_endline e; exit 2
     end
