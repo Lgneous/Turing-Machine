@@ -2,17 +2,18 @@ open Batteries
 open Lexing
 
 let usage () =
-  print_endline @@ String.concat "\n" [
-                                   "usage: ./turing.byte [-h] jsonfile input";
-                                   "";
-                                   "positional arguments:";
-                                   "  jsonfile                  json description of the machine";
-                                   "";
-                                   "  input                     input of the machine";
-                                   "";
-                                   "optional arguments:";
-                                   "  -h, --help                show this help message and exit";
-                                 ]
+  print_endline @@ String.concat "\n" @@
+    [
+      "usage: ./turing.byte [-h] jsonfile input";
+      "";
+      "positional arguments:";
+      "  jsonfile                  json description of the machine";
+      "";
+      "  input                     input of the machine";
+      "";
+      "optional arguments:";
+      "  -h, --help                show this help message and exit";
+    ]
 
 let display_or_err = function
   | Result.Ok d -> Print.machine_desc d
